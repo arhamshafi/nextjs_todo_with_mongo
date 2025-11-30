@@ -1,6 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { TodoProvider } from "@/context/Todo";
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,6 +27,14 @@ export default function RootLayout({ children }) {
       >
         <TodoProvider>
           {children}
+          <ToastContainer
+            position="top-center"
+            autoClose={1500}
+            closeOnClick
+            draggable
+            pauseOnHover
+            theme="light"
+          />
         </TodoProvider>
       </body>
     </html>

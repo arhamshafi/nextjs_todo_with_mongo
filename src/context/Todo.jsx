@@ -1,29 +1,51 @@
 "use client"
 
-const { createContext, useState, useContext } = require("react");
+import { toast } from "react-toastify";
+import { createContext, useState, useContext, useEffect } from "react"
+
 
 const TodoContext = createContext()
 export const TodoProvider = ({ children }) => {
 
-    const [loader_on_add, setloader_on_add] = useState(false)
+    const [alltodo, setalltodo] = useState([])
 
-    const addTodo = async (title) => {
+    const addTodo = async (inp) => {
+
         try {
-            setloader_on_add(true)
-            console.log(title);
+            const res = await fetch("/todos", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ inp }) })
+            const data = await res.json()
+            toast.success(data.message)
+            await fetchTodos()
+            if (!res.ok) throw new Error(data.err || "Something went Wrong")
             return true
 
         } catch (err) {
-            console.log(err.message);
+            toast.error(err.message)
             return false
-        }
-        finally {
-            setloader_on_add(false)
         }
     }
 
+    const fetchTodos = async () => {
+        try {
+            const res = await fetch("/todos", { method: "GET" })
+            const data = await res.json()
+            console.log(data.todos);
+            setalltodo(data.todos)
+            
+          
+            if (!res.ok) throw new Error(data.err || "Something Went Wrong")
+        } catch (err) {
+            toast.error(err.message)
+        }
+    }
+
+  useEffect(() => {
+     fetchTodos()
+}, [])
+
+
     return (
-        <TodoContext.Provider value={{ addTodo }} >
+        <TodoContext.Provider value={{ addTodo, alltodo }} >
             {children}
         </TodoContext.Provider>
     )
