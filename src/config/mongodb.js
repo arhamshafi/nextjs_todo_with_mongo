@@ -13,6 +13,7 @@ if (!cached) {
 
 const ConnectDB = async () => {
     if (cached.conn) return cached.conn
+    
     if (!cached.promise) {
         const opts = { bufferCommands: false }
         cached.promise = await mongoose.connect(MONGOURL, opts).then((mongoose) => {

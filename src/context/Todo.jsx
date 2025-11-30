@@ -5,9 +5,25 @@ const { createContext, useState, useContext } = require("react");
 const TodoContext = createContext()
 export const TodoProvider = ({ children }) => {
 
-    const [work, setwork] = useState("context working..")
+    const [loader_on_add, setloader_on_add] = useState(false)
+
+    const addTodo = async (title) => {
+        try {
+            setloader_on_add(true)
+            console.log(title);
+            return true
+
+        } catch (err) {
+            console.log(err.message);
+            return false
+        }
+        finally {
+            setloader_on_add(false)
+        }
+    }
+
     return (
-        <TodoContext.Provider value={{ work }} >
+        <TodoContext.Provider value={{ addTodo }} >
             {children}
         </TodoContext.Provider>
     )
