@@ -9,10 +9,12 @@ export default function Home() {
       <h1 className="text-2xl text-amber-950 font-bold mt-10">TODO APP</h1>
 
 
-      <div className="w-[70%] bg-amber-950 min-h-[500px] mt-20 rounded-2xl shadow-2xl p-4 ">
+      <div className="w-[1000px] bg-amber-950 min-h-[500px] mt-20 rounded-2xl shadow-2xl p-4 ">
         <Input />
         <Todo />
       </div>
     </div>
   );
 }
+// todo ka jo backend wala logic ha wo kha rakhna ha ? backend k name sy alag folder bnao wo behtar ha !! -- 
+//  or protected or unprotected ka backedn sy koi link ni ha  
