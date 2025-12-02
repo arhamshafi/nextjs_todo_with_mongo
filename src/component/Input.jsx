@@ -1,18 +1,15 @@
 "use client"
-import React, { useRef, useState } from 'react'
-import { usetodo } from "@/context/Todo";
+import React, { useEffect, useRef, useState } from 'react'
+import { useTodo } from "@/context/Todo";
 import { toast } from 'react-toastify';
 
 function Input() {
 
+    const { addTodo, loader_on_add } = useTodo()
+
     const [title, settitle] = useState("")
-    const [loader_on_add, setloader_on_add] = useState(false)
     const inpref = useRef(null)
     const [err, seterr] = useState(false)
-    const { addTodo, alltodo } = usetodo()
-
-    console.log("alltodo", alltodo);
-
 
     const handlesubmit = async (e) => {
         e.preventDefault()
@@ -25,10 +22,8 @@ function Input() {
             }, 1000);
             return
         }
-        setloader_on_add(true)
         const success = await addTodo(title)
         if (success) settitle("")
-        setloader_on_add(false)
     }
 
 
