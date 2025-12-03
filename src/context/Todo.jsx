@@ -1,8 +1,24 @@
 "use client"
 
 import { toast } from "react-toastify";
-import { createContext, useState, useContext, useEffect } from "react"
+import { createContext, useState, useContext, useEffect, useReducer } from "react"
 
+
+const initial_state = {
+    user: null,
+    token: null,
+    isAuthenticated: false,
+    user_loader: false
+}
+
+const AuthReducer = (state, action) => {
+    switch (action.type) {
+        case "AuthStart": return { ...state, user_loader: true }
+        case "AuthIn": return { ...state, user: action.payload.user, user_loader: false, token: action.payload.token, isAuthenticated: true }
+        case "AuthOut": return { ...state, user: null, isAuthenticated: false, token: null, user_loader: false }
+        default: return state
+    }
+}
 
 const TodoContext = createContext()
 export const TodoProvider = ({ children }) => {
@@ -10,8 +26,10 @@ export const TodoProvider = ({ children }) => {
     const [alltodo, setalltodo] = useState([])
     const [loader_on_add, setloader_on_add] = useState(false)
     const [todo_loader, setTodoloader] = useState(false)
-    
+    const [state, dispatch] = useReducer(AuthReducer, initial_state)
 
+
+    /////////////////////// TODO feature ///////////////////////////
 
     const addTodo = async (inp) => {
 
@@ -63,13 +81,25 @@ export const TodoProvider = ({ children }) => {
         }
     }
 
+    ////////////////////// AUTH Feature //////////////////////
+
+    const Signup_user = async () => {
+        try {
+            dispatch({ type: "AuthStart" })
+
+        } catch (err) {
+            dispatch({ type: "AtuhOut" })
+            toast.error(err.message)
+        }
+    }
+
 
     useEffect(() => {
         fetchTodos()
     }, [])
 
     return (
-        <TodoContext.Provider value={{ addTodo, alltodo, loader_on_add, todo_loader, delTodo }} >
+        <TodoContext.Provider value={{ addTodo, alltodo, loader_on_add, todo_loader, delTodo, ...state , Signup_user}} >
             {children}
         </TodoContext.Provider>
     )

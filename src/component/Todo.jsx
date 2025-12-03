@@ -28,7 +28,7 @@ function Todo() {
                     </div>) : (
                         alltodo.map((ele, idx) => (
                             <div key={idx} className='w-full h-[50px] flex px-5 items-center justify-between mt-5 hover:opacity-80 transition-all duration-150 ease-in-out hover:scale-99 text-black bg-white rounded-xl ' >
-                                <p className='font-bold text-xl'>{ele.title}</p>
+                                <p className='font-bold text-xl capitalize '>{ele.title}</p>
                                 <div className='flex justify-center gap-3 text-xl items-center'>
                                     <MdEdit className='text-blue-500 cursor-pointer ' />
                                     <MdDelete className='text-red-600 cursor-pointer' onClick={()=>delTodo(ele._id)} />

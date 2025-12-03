@@ -6,15 +6,13 @@ export default function Home() {
   return (
 
     <div className="w-full min-h-screen bg-gray-100 py-1 flex items-center flex-col ">
-      <h1 className="text-2xl text-amber-950 font-bold mt-10">TODO APP</h1>
+      <h1 className="text-2xl text-amber-950 font-bold mt-20">TODO APP</h1>
 
 
-      <div className="w-[1000px] bg-amber-950 min-h-[500px] mt-20 rounded-2xl shadow-2xl p-4 ">
+      <div className="w-[1000px] bg-amber-950 min-h-[500px] mt-14 rounded-2xl shadow-2xl p-4 ">
         <Input />
         <Todo />
       </div>
     </div>
   );
 }
-// todo ka jo backend wala logic ha wo kha rakhna ha ? backend k name sy alag folder bnao wo behtar ha !! -- 
-//  or protected or unprotected ka backedn sy koi link ni ha  
