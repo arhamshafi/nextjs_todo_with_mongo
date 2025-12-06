@@ -4,21 +4,21 @@ import { toast } from "react-toastify";
 import { createContext, useState, useContext, useEffect, useReducer } from "react"
 
 
-const initial_state = {
-    user: null,
-    token: null,
-    isAuthenticated: false,
-    user_loader: false
-}
+// const initial_state = {
+//     user: null,
+//     token: null,
+//     isAuthenticated: false,
+//     user_loader: false
+// }
 
-const AuthReducer = (state, action) => {
-    switch (action.type) {
-        case "AuthStart": return { ...state, user_loader: true }
-        case "AuthIn": return { ...state, user: action.payload.user, user_loader: false, token: action.payload.token, isAuthenticated: true }
-        case "AuthOut": return { ...state, user: null, isAuthenticated: false, token: null, user_loader: false }
-        default: return state
-    }
-}
+// const AuthReducer = (state, action) => {
+//     switch (action.type) {
+//         case "AuthStart": return { ...state, user_loader: true }
+//         case "AuthIn": return { ...state, user: action.payload.user, user_loader: false, token: action.payload.token, isAuthenticated: true }
+//         case "AuthOut": return { ...state, user: null, isAuthenticated: false, token: null, user_loader: false }
+//         default: return state
+//     }
+// }
 
 const TodoContext = createContext()
 export const TodoProvider = ({ children }) => {
@@ -26,7 +26,7 @@ export const TodoProvider = ({ children }) => {
     const [alltodo, setalltodo] = useState([])
     const [loader_on_add, setloader_on_add] = useState(false)
     const [todo_loader, setTodoloader] = useState(false)
-    const [state, dispatch] = useReducer(AuthReducer, initial_state)
+    // const [state, dispatch] = useReducer(AuthReducer, initial_state)
 
 
     /////////////////////// TODO feature ///////////////////////////
@@ -83,13 +83,17 @@ export const TodoProvider = ({ children }) => {
 
     ////////////////////// AUTH Feature //////////////////////
 
-    const Signup_user = async () => {
+    const Signup_user = async (form) => {
         try {
-            dispatch({ type: "AuthStart" })
+
+            const res = await fetch("/api/signup", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form), cache: "no-store" })
+            const data = await res.json()
+            if (!res.ok) throw new Error(data.message)
+            if (data.success) return true
 
         } catch (err) {
-            dispatch({ type: "AtuhOut" })
             toast.error(err.message)
+            return false
         }
     }
 
@@ -99,7 +103,7 @@ export const TodoProvider = ({ children }) => {
     }, [])
 
     return (
-        <TodoContext.Provider value={{ addTodo, alltodo, loader_on_add, todo_loader, delTodo, ...state , Signup_user}} >
+        <TodoContext.Provider value={{ addTodo, alltodo, loader_on_add, todo_loader, delTodo, Signup_user }} >
             {children}
         </TodoContext.Provider>
     )

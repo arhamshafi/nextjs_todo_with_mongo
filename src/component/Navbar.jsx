@@ -1,12 +1,14 @@
 "use client"
 import { useTodo } from '@/context/Todo'
+import { signOut, useSession } from 'next-auth/react'
 import React, { useState } from 'react'
 
 function Navbar() {
 
     const [active, setactive] = useState("home")
     const {user} = useTodo() 
-    console.log(user);
+    const { data : userData } = useSession() // use to get session data in client only 
+    console.log(userData);
     
     
 
@@ -21,6 +23,7 @@ function Navbar() {
                     ))
                 }
             </ul>
+            <button onClick={()=>signOut({callbackUrl:"/contact"})} >LOG OUT</button>
         </nav>
     )
 }

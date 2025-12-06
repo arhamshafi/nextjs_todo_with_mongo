@@ -9,7 +9,6 @@ export const POST = async (req) => {
         await ConnectDB()
         const { inp } = await req.json()
         if (!inp.trim()) return NextResponse.json({ success: false, err: "Title is required" }, { status: 400 })
-
         await todoSchema.create({ title: inp.trim() })
         return NextResponse.json({ success: true, message: "Todo Created" })
     } catch (err) {
